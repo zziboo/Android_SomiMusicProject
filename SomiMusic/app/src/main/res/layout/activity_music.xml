@@ -14,21 +14,33 @@
         android:scrollbarStyle="insideOverlay">
     </ListView>
 
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Download"
-        android:id="@+id/downloadbtn"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:background="@color/colorPrimary">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:id="@+id/playbtn"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/downloadbtn"/>
+        <TextView
+            android:layout_margin="5dp"
+            android:layout_width="240dp"
+            android:id="@+id/playMusictxt"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Down"
+            android:id="@+id/downloadbtn"
+            android:layout_alignParentRight="true"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:id="@+id/playbtn"
+            android:layout_toLeftOf="@+id/downloadbtn"/>
+    </RelativeLayout>
 
 
 </RelativeLayout>
