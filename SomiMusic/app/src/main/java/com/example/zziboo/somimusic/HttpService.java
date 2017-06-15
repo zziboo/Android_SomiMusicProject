@@ -59,7 +59,7 @@ public class HttpService extends Thread {
                     for (;;){
                         String stringLine = bufferedReader.readLine();
                         if (stringLine == null ) break;
-                        responseStringBuilder.append(stringLine + "\n");
+                        responseStringBuilder.append(stringLine); // + "\n"
                     }
                     msgobj = responseStringBuilder.toString();
                     commandflag = 0;

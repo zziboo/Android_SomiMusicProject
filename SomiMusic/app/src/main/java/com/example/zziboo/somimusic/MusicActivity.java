@@ -48,31 +48,43 @@ import java.util.List;
 
 public class MusicActivity extends AppCompatActivity {
     ListView musicList;
-    Button playButton, downloadButton;
+    Button playButton;
     ArrayAdapter adapter;
-    String titleName;
+    String titleName, musicPath;
+    MediaPlayer mp;
+    TextView playMusictxt;
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch(msg.what){
+            switch (msg.what) {
                 case 0: //list
                     String[] titleList;
-                    titleList = ((String)msg.obj).split("%");
-                    for(int i=0; i<titleList.length; ++i) {
-                            titleList[i] = titleList[i];
+                    titleList = ((String) msg.obj).split("%");
+                    for (int i = 0; i < titleList.length; ++i) {
+                        titleList[i] = titleList[i];
                     }
                     adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, titleList);
                     musicList.setAdapter(adapter);
-                    musicList.setBackgroundColor(Color.CYAN);
+                    musicList.setBackgroundColor(Color.argb(255, 222, 223, 226));
 
-                    handler.removeMessages(msg.what);
+
                     break;
                 case 1: //file
-                    Toast.makeText(getApplicationContext(), ((File)msg.obj).getPath() + " " + ((File)msg.obj).getName(), Toast.LENGTH_SHORT).show();
-
-                    handler.removeMessages(msg.what);
+                    musicPath = ((File) msg.obj).getAbsolutePath();
+                    try {
+                        if (mp != null) {
+                            mp.release();
+                            mp=null;
+                        }
+                        mp=new MediaPlayer();
+                        mp.setDataSource(musicPath);
+                        mp.prepare();
+                        mp.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
 
@@ -85,32 +97,29 @@ public class MusicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music);
 
         musicList = (ListView) findViewById(R.id.musicList);
-
         playButton = (Button) findViewById(R.id.playbtn);
-        downloadButton = (Button) findViewById(R.id.downloadbtn);
+        playMusictxt = (TextView) findViewById(R.id.playMusictxt);
+
+        mp = null;
 
         new HttpService("list", handler, getApplicationContext()).start(); //HttpService(String command, Handler handler, Context context)
         musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 titleName = musicList.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), titleName, Toast.LENGTH_SHORT).show();
+                playMusictxt.setText(titleName);
+            }
+        });
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    new HttpService("title=" + URLEncoder.encode(titleName, "utf-8"), handler, getApplicationContext()).start();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
-
-    public void OnClick(View view) throws IOException {
-        switch (view.getId()){
-            case R.id.playbtn:
-                String musicPath = getApplicationContext().getFilesDir().getPath() + "/";
-                MediaPlayer mp = new MediaPlayer();
-                mp.setDataSource(musicPath + titleName);
-                mp.isPlaying();
-                break;
-            case R.id.downloadbtn:
-                new HttpService("title="+titleName, handler, getApplicationContext()).start();
-                break;
-        }
-    }
-
 }
