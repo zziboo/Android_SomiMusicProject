@@ -5,26 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     tools:context="com.example.zziboo.somimusic.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/connetedtxt"
+        android:background="@drawable/marker"
         />
 
     <Button
         android:layout_width="35dp"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="X"
+        android:background="@drawable/btn"
         android:layout_alignParentRight="true"
         android:id="@+id/closebtn" />
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
         android:text="Music"
+        android:background="@drawable/btn"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="45dp"

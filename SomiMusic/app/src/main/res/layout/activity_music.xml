@@ -31,10 +31,10 @@
             android:layout_alignParentLeft="true"/>
 
         <Button
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="Play"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/playbtn"
+            android:background="@drawable/play"
             android:layout_alignParentRight="true"
             android:onClick="OnClick"/>
     </RelativeLayout>
